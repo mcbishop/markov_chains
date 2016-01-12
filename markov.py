@@ -38,16 +38,35 @@ def make_chains(text_string):
             chains[ngram].append(text_tokens[i+2])
 
     # if we are at end of text, do something else
-
+    print chains 
     return chains
 
 
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
+#     """Make a new key out of the second word in the first key and the random word you pulled out from the list of words that followed it.
+    
+
+# Look up that new key in the dictionary, and pull a new random word out of the new list.
+# Keep doing that until your program raises a KeyError."""
 
     text = ""
 
-    # your code goes here
+    # pick a starting ngram randomly
+    #(choice(food_rate.keys()))'  
+    first_ngram = choice(chains.keys()) #gather random first tuple
+    second_word = first_ngram[1] #get random list value
+    ngram = (second_word, choice(chains[first_ngram])) #new key is tuple of key[2], list value
+        #make a new tuple from new_key and random list item
+
+    while ngram in chains:
+        #randomly choose a word from that key's list
+        #make a new ngram out of key + random word
+        #append to text string
+        second_word = ngram[1] #get random list value
+        new_key = (second_word, choice(chains[ngram])) #new key is tuple of key[2], list value
+            #make a new tuple from new_key and random list item
+        #reassign ngram to new key
 
     return text
 
