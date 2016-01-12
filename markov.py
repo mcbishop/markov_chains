@@ -8,9 +8,9 @@ def open_and_read_file(file_path):
     the file's contents as one string of text.
     """
 
-    # your code goes here
-
-    return "This should be a variable that contains your file text as one long string"
+    with open(file_path) as text_corpus_file:
+        text_corpus = text_corpus_file.read()
+        return text_corpus
 
 
 def make_chains(text_string):
@@ -46,12 +46,12 @@ def make_text(chains):
 input_path = "green-eggs.txt"
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(input_path)
+#input_text = open_and_read_file("green-eggs.txt")
 
-# Get a Markov chain
-chains = make_chains(input_text)
+# # Get a Markov chain
+# chains = make_chains(input_text)
 
-# Produce random text
-random_text = make_text(chains)
+# # Produce random text
+# random_text = make_text(chains)
 
-print random_text
+# print random_text
