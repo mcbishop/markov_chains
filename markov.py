@@ -28,7 +28,16 @@ def make_chains(text_string):
 
     chains = {}
 
-    # your code goes here
+    text_tokens = text_string.split()
+
+    for i in range(len(text_tokens)):
+        if i < (len(text_tokens) - 2):
+            ngram = (text_tokens[i], text_tokens[i+1])
+            if ngram not in chains:
+                chains[ngram] = []
+            chains[ngram].append(text_tokens[i+2])
+
+    # if we are at end of text, do something else
 
     return chains
 
@@ -46,10 +55,10 @@ def make_text(chains):
 input_path = "green-eggs.txt"
 
 # Open the file and turn it into one long string
-#input_text = open_and_read_file("green-eggs.txt")
+input_text = open_and_read_file("green-eggs.txt")
 
 # # Get a Markov chain
-# chains = make_chains(input_text)
+chains = make_chains(input_text)
 
 # # Produce random text
 # random_text = make_text(chains)
