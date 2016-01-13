@@ -47,19 +47,20 @@ def make_text(chains):
 
     first_ngram = choice(chains.keys()) 
     ngram = first_ngram
-
-    while ngram in chains:
+    counter = 0
+    while ((ngram in chains) and counter < 500):
         second_word = ngram[1] 
         new_key = (second_word, choice(chains[ngram])) 
         text += " {}".format(new_key[1]) 
         ngram = new_key
+        counter +=1
 
     return text
 
-input_path = "green-eggs.txt"
+input_path = "pg55.txt"
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file("green-eggs.txt")
+input_text = open_and_read_file("pg55.txt")
 
 # # Get a Markov chain
 chains = make_chains(input_text)
