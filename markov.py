@@ -37,36 +37,21 @@ def make_chains(text_string):
                 chains[ngram] = []
             chains[ngram].append(text_tokens[i+2])
 
-    # if we are at end of text, do something else
-    print chains 
     return chains
 
 
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
-#     """Make a new key out of the second word in the first key and the random word you pulled out from the list of words that followed it.
-    
-
-# Look up that new key in the dictionary, and pull a new random word out of the new list.
-
 
     text = ""
 
-    first_ngram = choice(chains.keys()) #gather random first tuple
-    # second_word = first_ngram[1] #get random list value
-    # ngram = (second_word, choice(chains[first_ngram])) #new key is tuple of key[2], list value
-
-    # text += " {}".format(ngram[1])
+    first_ngram = choice(chains.keys()) 
     ngram = first_ngram
 
     while ngram in chains:
-        #append to text string
-        second_word = ngram[1] #get random list value
-        print "-------"
-        new_key = (second_word, choice(chains[ngram])) #new key is tuple of key[2], list value
+        second_word = ngram[1] 
+        new_key = (second_word, choice(chains[ngram])) 
         text += " {}".format(new_key[1]) 
-        print new_key
-        print text
         ngram = new_key
 
     return text
