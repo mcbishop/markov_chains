@@ -53,10 +53,11 @@ def make_text(chains):
     text = ""
 
     first_ngram = choice(chains.keys()) #gather random first tuple
-    second_word = first_ngram[1] #get random list value
-    ngram = (second_word, choice(chains[first_ngram])) #new key is tuple of key[2], list value
+    # second_word = first_ngram[1] #get random list value
+    # ngram = (second_word, choice(chains[first_ngram])) #new key is tuple of key[2], list value
 
-    text += " {}".format(ngram[1])
+    # text += " {}".format(ngram[1])
+    ngram = first_ngram
 
     while ngram in chains:
         #append to text string
