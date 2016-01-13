@@ -1,4 +1,5 @@
 from random import choice
+from sys import argv
 
 
 def open_and_read_file(file_path):
@@ -57,15 +58,16 @@ def make_text(chains):
 
     return text
 
-input_path = "pg55.txt"
+input_path = argv[1]
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file("pg55.txt")
+input_text = open_and_read_file(input_path)
 
 # # Get a Markov chain
 chains = make_chains(input_text)
 
-# # Produce random text
+# # # Produce random text
+
 random_text = make_text(chains)
 
 print random_text
