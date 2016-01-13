@@ -1,7 +1,6 @@
 from random import choice
 from sys import argv
 
-ngram_length = 3
 
 
 def open_and_read_file(file_path):
@@ -54,25 +53,27 @@ def make_text(chains,ngram_length):
     ngram = first_ngram
     counter = 0
     while ((ngram in chains) and counter < 500):
-        second_word = ngram[1] #ngram end references
-        new_key = (second_word, choice(chains[ngram])) #ngram end reference; creates new key as tuple of two words 
-        text += " {}".format(new_key[1])  #index based on ngram length
+        end_words = ngram[1:] #ngram end references ngram all but first word
+        new_word = choice(chains[ngram])
+        new_key = end_words+(new_word,) #ngram end reference; creates new key as tuple of x # words 
+        text += " {}".format(new_word)  #index based on ngram length
         ngram = new_key
         counter +=1
 
     return text
 
-input_path = argv[1]
+input_path, ngram_length_string = argv[1:3] #up to but not including 3rd index
+ngram_length = int(ngram_length_string)
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
 
 # # Get a Markov chain
 chains = make_chains(input_text,ngram_length)
-print chains
+#print chains
 
 # # # Produce random text
 
-#random_text = make_text(chains,ngram_length)
+random_text = make_text(chains,ngram_length)
 
-#print random_text
+print random_text
