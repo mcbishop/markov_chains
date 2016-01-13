@@ -34,11 +34,11 @@ def make_chains(text_string,ngram_length):
     text_tokens = text_string.split()
 
     for i in range(len(text_tokens)):
-        if i < (len(text_tokens) - n): # stop at ngram length before end 
-            ngram = tuple(text_tokens[i:i+n]) #creates ngram
+        if i < (len(text_tokens) - n): 
+            ngram = tuple(text_tokens[i:i+n]) 
             if ngram not in chains:
                 chains[ngram] = []
-            chains[ngram].append(text_tokens[i+n]) #index is based on ngram length
+            chains[ngram].append(text_tokens[i+n]) 
 
     return chains
 
@@ -53,16 +53,16 @@ def make_text(chains,ngram_length):
     ngram = first_ngram
     counter = 0
     while ((ngram in chains) and counter < 500):
-        end_words = ngram[1:] #ngram end references ngram all but first word
+        end_words = ngram[1:] 
         new_word = choice(chains[ngram])
-        new_key = end_words+(new_word,) #ngram end reference; creates new key as tuple of x # words 
-        text += " {}".format(new_word)  #index based on ngram length
+        new_key = end_words+(new_word,) 
+        text += " {}".format(new_word)  
         ngram = new_key
         counter +=1
 
     return text
 
-input_path, ngram_length_string = argv[1:3] #up to but not including 3rd index
+input_path, ngram_length_string = argv[1:3] 
 ngram_length = int(ngram_length_string)
 
 # Open the file and turn it into one long string
