@@ -48,28 +48,27 @@ def make_text(chains):
     
 
 # Look up that new key in the dictionary, and pull a new random word out of the new list.
-# Keep doing that until your program raises a KeyError."""
+
 
     text = ""
 
-    # pick a starting ngram randomly
-    #(choice(food_rate.keys()))'  
     first_ngram = choice(chains.keys()) #gather random first tuple
     second_word = first_ngram[1] #get random list value
     ngram = (second_word, choice(chains[first_ngram])) #new key is tuple of key[2], list value
-        #make a new tuple from new_key and random list item
+
+    text += " {}".format(ngram[1])
 
     while ngram in chains:
-        #randomly choose a word from that key's list
-        #make a new ngram out of key + random word
         #append to text string
         second_word = ngram[1] #get random list value
+        print "-------"
         new_key = (second_word, choice(chains[ngram])) #new key is tuple of key[2], list value
-            #make a new tuple from new_key and random list item
-        #reassign ngram to new key
+        text += " {}".format(new_key[1]) 
+        print new_key
+        print text
+        ngram = new_key
 
     return text
-
 
 input_path = "green-eggs.txt"
 
@@ -80,6 +79,6 @@ input_text = open_and_read_file("green-eggs.txt")
 chains = make_chains(input_text)
 
 # # Produce random text
-# random_text = make_text(chains)
+random_text = make_text(chains)
 
-# print random_text
+print random_text
