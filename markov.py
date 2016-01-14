@@ -43,15 +43,13 @@ def make_chains(text_string,ngram_length):
     return chains
 
 
-def make_text(chains,char_limit_soft):
+def make_text(chains, char_limit):
     """Takes dictionary of markov chains; returns random text.
 
     Random text will begin with a capital letter.
     
-    char_limit_soft is a soft limit of output length, meaning 
-    that no words are appended after that character limit is reached. 
-    However, the limit in character length could be exceeded by the 
-    length of the last word.
+    char_limit will stop word addition loosely (but possibly exceeding)
+    the character count.  Text is then truncated, possibly mid word, to enforce that limit.
 
     """
 
@@ -64,27 +62,24 @@ def make_text(chains,char_limit_soft):
 
     ngram = first_ngram
     text += ngram[1]
-    #counter = 0
     char_count = 0
-    while ((ngram in chains) and char_count < char_limit_soft):
+    while ((ngram in chains) and char_count < char_limit):
         end_words = ngram[1:] 
         new_word = choice(chains[ngram])
         new_key = end_words+(new_word,) 
         text += " {}".format(new_word)  
         ngram = new_key
         char_count+=len(new_word)
-        #counter +=1
+    
+    text = text[:char_limit]
 
     return text
 
 #TODO: new function to slice text at last punctuation of (?!.) before end, while enforcing hard limit of line length
 
-def chop_and_clean_end(text,hard_char_limit):
-    #chop off ending at char limit
-
-    text = text[:hard_char_limit]
-
-    #then look for last punctionation ?!. before char limit
+def clean_end(text):
+    """Removes text after last occurance of end or near-end punctionation. Defaults to comma or last space if none found. """
+ 
 
     punct = (
         ".", 
@@ -124,9 +119,9 @@ chains = make_chains(input_text,ngram_length)
 #print chains
 
 # # # Produce random text
-char_limit_soft = 140
-random_text = make_text(chains,char_limit_soft)
+char_limit = 140
+random_text = make_text(chains,char_limit)
 print random_text
-cleaned_text = chop_and_clean_end(random_text,char_limit_soft)
+cleaned_text = clean_end(random_text)
 print "-"*80
 print cleaned_text
