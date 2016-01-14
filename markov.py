@@ -59,7 +59,7 @@ def make_text(chains,char_limit_soft):
 
     first_ngram = choice(chains.keys()) 
     #check to see if choice first index starts with capital letter and is camelcased
-    while not ((first_ngram[1][0].isupper()) and (first_ngram[1][1].islower())):
+    while not ((first_ngram[1][0].isupper())): #and (first_ngram[1][1].islower())):
         first_ngram = choice(chains.keys())
 
     ngram = first_ngram
@@ -79,6 +79,40 @@ def make_text(chains,char_limit_soft):
 
 #TODO: new function to slice text at last punctuation of (?!.) before end, while enforcing hard limit of line length
 
+def chop_and_clean_end(text,hard_char_limit):
+    #chop off ending at char limit
+
+    text = text[:hard_char_limit]
+
+    #then look for last punctionation ?!. before char limit
+
+    punct = (
+        ".", 
+        ";", 
+        "?", 
+        "!",
+        ":",
+        )
+
+    punct_index = [text.rfind(p) for p in punct]
+    print punct_index
+    cleaned_end = max(punct_index)+1
+    if cleaned_end < 1:
+        # check for last comma
+        comma_index = text.rfind(",")
+        cleaned_end = comma_index+1
+        #check for last space
+        if comma_index < 1:
+            space_index = text.rfind(" ")
+            cleaned_end = space_index
+
+
+    text_cleaned = text[:cleaned_end]
+
+    return text_cleaned
+
+
+
 input_path, ngram_length_string = argv[1:3] 
 ngram_length = int(ngram_length_string)
 
@@ -92,5 +126,7 @@ chains = make_chains(input_text,ngram_length)
 # # # Produce random text
 char_limit_soft = 140
 random_text = make_text(chains,char_limit_soft)
-
 print random_text
+cleaned_text = chop_and_clean_end(random_text,char_limit_soft)
+print "-"*80
+print cleaned_text
