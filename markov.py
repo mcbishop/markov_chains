@@ -43,34 +43,41 @@ def make_chains(text_string,ngram_length):
     return chains
 
 
-def make_text(chains,ngram_length):
-    """Takes dictionary of markov chains; returns random text."""
-    n = ngram_length
+def make_text(chains,char_limit_soft):
+    """Takes dictionary of markov chains; returns random text.
+
+    Random text will begin with a capital letter.
+    
+    char_limit_soft is a soft limit of output length, meaning 
+    that no words are appended after that character limit is reached. 
+    However, the limit in character length could be exceeded by the 
+    length of the last word.
+
+    """
 
     text = ""
 
-    first_ngram = choice(chains.keys()) # This choice is where we need to only get capitals
-    #check to see if choice first word starts with capital letter and is camelcased
-    # while not (tuple[0][0]isuper & tuple[0][1]islower)
-    # pick a new one
-    
+    first_ngram = choice(chains.keys()) 
+    #check to see if choice first index starts with capital letter and is camelcased
     while not ((first_ngram[1][0].isupper()) and (first_ngram[1][1].islower())):
         first_ngram = choice(chains.keys())
 
-      
-
     ngram = first_ngram
     text += ngram[1]
-    counter = 0
-    while ((ngram in chains) and counter < 500):
+    #counter = 0
+    char_count = 0
+    while ((ngram in chains) and char_count < char_limit_soft):
         end_words = ngram[1:] 
         new_word = choice(chains[ngram])
         new_key = end_words+(new_word,) 
         text += " {}".format(new_word)  
         ngram = new_key
-        counter +=1
+        char_count+=len(new_word)
+        #counter +=1
 
     return text
+
+#TODO: new function to slice text at last punctuation of (?!.) before end, while enforcing hard limit of line length
 
 input_path, ngram_length_string = argv[1:3] 
 ngram_length = int(ngram_length_string)
@@ -83,7 +90,7 @@ chains = make_chains(input_text,ngram_length)
 #print chains
 
 # # # Produce random text
-
-random_text = make_text(chains,ngram_length)
+char_limit_soft = 140
+random_text = make_text(chains,char_limit_soft)
 
 print random_text
