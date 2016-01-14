@@ -55,14 +55,12 @@ def make_text(chains,ngram_length):
     # pick a new one
     
     while not ((first_ngram[1][0].isupper()) and (first_ngram[1][1].islower())):
-        print first_ngram 
         first_ngram = choice(chains.keys())
-        print "Conditions not met. Picked new first word :D"
-    print first_ngram
 
       
 
     ngram = first_ngram
+    text += ngram[1]
     counter = 0
     while ((ngram in chains) and counter < 500):
         end_words = ngram[1:] 
@@ -82,7 +80,7 @@ input_text = open_and_read_file(input_path)
 
 # # Get a Markov chain
 chains = make_chains(input_text,ngram_length)
-print chains
+#print chains
 
 # # # Produce random text
 
